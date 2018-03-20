@@ -58,3 +58,32 @@ Subject,Start Date,Start Time,End Date,End Time,All Day Event,Description,Locati
 运筹学, 2018-04-10, 03:45 PM, 2018-04-10, 05:30 PM, False, 刘绍辉, 正心12, True
 运筹学, 2018-04-17, 03:45 PM, 2018-04-17, 05:30 PM, False, 刘绍辉, 正心12, True
 ```
+
+#### Reference:
+> [将活动导入到 Google 日历](https://support.google.com/calendar/answer/37118?hl=zh-Hans)
+> [RFC 5545](https://tools.ietf.org/html/rfc5545)
+
+#### License:
+```
+# THE DRINKWARE LICENSE
+# 
+# <wangyihanger@gmail.com> wrote this file. As long as 
+# you retain this notice you can do whatever you want 
+# with this stuff. If we meet some day, and you think 
+# this stuff is worth it, you can buy me the following
+# drink(s) in return.
+
+import random
+
+def main():
+    random.choice([
+        'Red Bull', 
+        'JDB', 
+        'Coffee', 
+        'Sprite', 
+        'Cola', 
+        'Harbin Beer'
+    ])
+
+author = "Wang Yihang"
+```
