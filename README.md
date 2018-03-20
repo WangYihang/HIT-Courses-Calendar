@@ -75,17 +75,20 @@ Subject,Start Date,Start Time,End Date,End Time,All Day Event,Description,Locati
 
 import random
 
-def main():
-    random.choice([
+def thank(person):
+    person.drink(random.choice([
         'Red Bull', 
         'JDB', 
         'Coffee', 
         'Sprite', 
         'Cola', 
         'Harbin Beer'
-    ])
+    ]))
+
+def main():
+    author = "Wang Yihang"
+    thank(anthor)
 
 if __name__ == "__main__":
     main()
-    author = "Wang Yihang"
 ```
