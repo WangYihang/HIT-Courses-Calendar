@@ -5,9 +5,7 @@ import xlrd
 import re
 import datetime
 import sys
-import getopt
-
-semester_start_date = datetime.date(2018, 2, 26)
+import argparse
 
 schedule = [
     ("08:00 AM", "09:45 AM"),
@@ -93,7 +91,8 @@ def pretty_print(data):
         print data,
 
 
-def parseExcel(inputfile, outputfile):
+def parseExcel(inputfile, outputfile, semester_start_date):
+    print "[+] Parsing xls data..."
     with open(outputfile, "w") as f:
         f.write("".join([i + "," for i in keys]) + "\n")
     try:
@@ -106,6 +105,7 @@ def parseExcel(inputfile, outputfile):
         sheet = work_book.sheet_by_name(sheet_name)
         nrows = sheet.nrows
         ncols = sheet.ncols
+        count = 0
         for r in range(2, nrows):
             for c in range(2, ncols):
                 item = sheet.cell_value(r, c)
@@ -130,9 +130,12 @@ def parseExcel(inputfile, outputfile):
                             location=lecture_info['location'],
                             private=True,
                         )
+                        count += 1
                         with open(outputfile, "a+") as f:
                             f.write(str(subject) + "\n")
                 # pretty_print(lectures_info)
+    print "[+] Output finished!"
+    return count
 
 
 def parseItem(content):
@@ -142,12 +145,12 @@ def parseItem(content):
     results = []
     for i in range(0, len(content_items), 2):
         name = content_items[i]
-        is_examination = False
-        if name.startswith("[考试]"):
-            continue
+        # is_examination = False
+        # if name.startswith("[考试]"):
+        #     continue
         # TODO handle exam
-        is_examination = True
-        name = name.replace("[考试]", "")
+        # is_examination = True
+        # name = name.replace("[考试]", "")
         left_data = content_items[i + 1]
 
         instructor = left_data.split("[")[0]
@@ -194,7 +197,7 @@ def parseItem(content):
 
         lecture_info = {
             "name": name,
-            "is_examination": is_examination,
+            # "is_examination": is_examination,
             "instructor": instructor,
             "location": location,
             "weeks": weeks,
@@ -204,23 +207,40 @@ def parseItem(content):
 
 
 def main():
-    inputfile = 'timetable.xls'
-    outputfile = 'timetable.cvs'
-    try:
-        opts, args = getopt.getopt(sys.argv, "hi:o:", ["ifile=", "ofile="])
-    except getopt.GetoptError:
-        print '%s -i <inputfile> -o <outputfile>' % (sys.argv[0])
-        sys.exit(1)
-    for opt, arg in opts:
-        if opt == '-h':
-            print 'test.py -i <inputfile> -o <outputfile>'
-            sys.exit(1)
-        elif opt in ("-i", "--ifile"):
-            inputfile = arg
-        elif opt in ("-o", "--ofile"):
-            outputfile = arg
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "-i",
+        "--inputfile",
+        help="input file to convert",
+        default="timetable.xls"
+    )
+    parser.add_argument(
+        "-o",
+        "--outputfile",
+        help="output file to save",
+        default="timetable.cvs"
+    )
+    parser.add_argument(
+        "-s",
+        "--semester",
+        help="semester start date, format: year/month/day, example: 2018/02/26",
+        default="2018/02/26"
+    )
+    args = parser.parse_args()
+
     # BUG [1-14]双周
-    parseExcel(inputfile, outputfile)
+    year = int(args.semester.split("/")[0])
+    month = int(args.semester.split("/")[1])
+    day = int(args.semester.split("/")[2])
+    try:
+        semester_start_date = datetime.date(year, month, day)
+        print "[+] Semester start date: %s" % (semester_start_date)
+    except Exception as e:
+        print str(e)
+        exit(4)
+    count = parseExcel(args.inputfile, args.outputfile, semester_start_date)
+    print "[+] %d lectures found" % (count)
+    print "[+] Please check %s" % (args.outputfile)
 
 
 if __name__ == '__main__':
