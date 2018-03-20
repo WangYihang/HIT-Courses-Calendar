@@ -85,5 +85,7 @@ def main():
         'Harbin Beer'
     ])
 
-author = "Wang Yihang"
+if __name__ == "__main__":
+    main()
+    author = "Wang Yihang"
 ```
