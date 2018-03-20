@@ -6,7 +6,6 @@
 git clone https://github.com/WangYihang/ClassScheduleOfHIT.git
 cd ClassScheduleOfHIT
 pip install -r requirements.txt
-python main.py timetable.xls timetable.cvs
 ```
 
 #### Usage:
@@ -17,6 +16,7 @@ python main.py timetable.xls timetable.cvs
   1. -i 为 excel 文件所在路径  
   2. -o 为输出 cvs 文件路径  
   3. -s 为本学期开始日期，格式为：年/月/日 （例如：2018/02/26）  
+  4. `python main.py timetable.xls timetable.cvs`
 4. 执行成功后生成 cvs 文件，即可导入 Google Calendar 等日历管理工具
 
 ```
