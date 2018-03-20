@@ -60,8 +60,8 @@ Subject,Start Date,Start Time,End Date,End Time,All Day Event,Description,Locati
 ```
 
 #### Reference:
-> [将活动导入到 Google 日历](https://support.google.com/calendar/answer/37118?hl=zh-Hans)
-> [RFC 5545](https://tools.ietf.org/html/rfc5545)
+> [将活动导入到 Google 日历](https://support.google.com/calendar/answer/37118?hl=zh-Hans)  
+> [RFC 5545](https://tools.ietf.org/html/rfc5545)  
 
 #### License:
 ```
