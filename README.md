@@ -64,7 +64,7 @@ Subject,Start Date,Start Time,End Date,End Time,All Day Event,Description,Locati
 珍惜、那时光 (提示时间表在不同时期会有微小变化)
 
 #### TODO
-- [ ] 作息表在考试时期和实验时期会有变化，需要适配这种变化
+- [x] 作息表在考试时期和实验时期会有变化，需要适配这种变化
 
 #### Reference:
 > [将活动导入到 Google 日历](https://support.google.com/calendar/answer/37118?hl=zh-Hans)  
