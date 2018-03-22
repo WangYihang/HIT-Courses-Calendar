@@ -4,16 +4,31 @@
 import xlrd
 import re
 import datetime
-import sys
 import argparse
 
-schedule = [
-    ("08:00 AM", "09:45 AM"),
-    ("10:00 AM", "11:45 AM"),
-    ("01:45 PM", "03:30 PM"),
-    ("03:45 PM", "05:30 PM"),
-    ("06:00 PM", "07:45 PM"),
-    ("08:00 PM", "09:45 PM"),
+schedule_normal = [
+    ("08:00 AM", "09:45 AM"),  # 1,2
+    ("10:00 AM", "11:45 AM"),  # 3,4
+    ("01:45 PM", "03:30 PM"),  # 5,6
+    ("03:45 PM", "05:30 PM"),  # 7,8
+    ("06:30 PM", "08:15 PM"),  # 9,10
+    ("08:30 PM", "10:15 PM"),  # 11,12
+]
+
+schedule_exam = [
+    ("08:00 AM", "10:00 AM"),  # 1,2
+    ("10:00 AM", "12:00 AM"),  # 3,4
+    ("01:00 PM", "03:00 PM"),  # 5,6
+    ("03:45 PM", "05:45 PM"),  # 7,8
+    ("06:30 PM", "08:30 PM"),  # 9,10
+]
+
+schedule_experiment = [
+    ("07:20 AM", "09:50 AM"),  # 1,2
+    ("10:00 AM", "12:30 AM"),  # 3,4
+    ("01:00 PM", "03:30 PM"),  # 5,6
+    ("03:40 PM", "06:10 PM"),  # 7,8
+    ("06:30 PM", "09:00 PM"),  # 9,10
 ]
 
 keys = [
@@ -111,8 +126,15 @@ def parseExcel(inputfile, outputfile, semester_start_date):
                 item = sheet.cell_value(r, c)
                 lectures_info = parseItem(item.encode("utf-8"))
                 for lecture_info in lectures_info:
-                    lecture_info['start_time'] = schedule[r - 2][0]
-                    lecture_info['end_time'] = schedule[r - 2][1]
+                    if "[考试]" in lecture_info['name']:
+                        lecture_info['start_time'] = schedule_exam[r - 2][0]
+                        lecture_info['end_time'] = schedule_exam[r - 2][1]
+                    elif "(实验)" in lecture_info['name']:
+                        lecture_info['start_time'] = schedule_experiment[r - 2][0]
+                        lecture_info['end_time'] = schedule_experiment[r - 2][1]
+                    else:
+                        lecture_info['start_time'] = schedule_normal[r - 2][0]
+                        lecture_info['end_time'] = schedule_normal[r - 2][1]
                     weeks = lecture_info['weeks']
                     # pretty_print(lecture_info)
                     for week in weeks:
