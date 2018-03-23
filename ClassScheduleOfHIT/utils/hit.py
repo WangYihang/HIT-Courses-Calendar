@@ -30,11 +30,11 @@ def sso_login(username, password):
     result = soup.find(id='msg')
     if result:
         print "[-] %s" % (result.text)
-        return False
+        return (False, result.text)
     else:
         hola = soup.find(class_='welcome')
         print "[+] %s" % (hola.text)
-        return True
+        return (True)
 
 
 def download_schedule(semester_year, semester, filename):

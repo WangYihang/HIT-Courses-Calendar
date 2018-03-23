@@ -274,11 +274,14 @@ def main():
     semester_year = config['semester_year']
     semester = config['semester']
 
-    if sso_login(username, password):
+    login_result = sso_login(username, password)
+    if login_result[0]:
         download_schedule(semester_year, semester, excel)
         count = parseExcel(excel, cvs, semester_start_date)
         print "[+] %d lectures found" % (count)
         print "[+] Please check %s" % (cvs)
+    else:
+        print "[-] %s" % (login_result[1].encode("utf-8"))
 
 
 if __name__ == '__main__':

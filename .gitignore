@@ -2,3 +2,5 @@
 *.pyc
 config.json
 venv/
+ClassScheduleOfHIT/outputfiles/
+ClassScheduleOfHIT/uploads/
