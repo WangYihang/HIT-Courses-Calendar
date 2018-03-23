@@ -33,6 +33,12 @@ optional arguments:
                         2018/02/26
 ```
 
+#### Acknowledgement
+珍惜、那时光（提出考试以及实验的时间表差异）
+
+#### TODO
+- [x] 适配考试时间表以及实验时间表
+
 #### Example:
 > [timetable.cvs](timetable.cvs)
 ```
