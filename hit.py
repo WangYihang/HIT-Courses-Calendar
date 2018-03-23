@@ -3,7 +3,6 @@
 
 import requests
 from bs4 import BeautifulSoup
-from config import *
 
 SESSION = requests.session()
 
@@ -36,7 +35,7 @@ def sso_login(username, password):
         return True
 
 
-def download_schedule(semester_year, semester):
+def download_schedule(semester_year, semester, filename):
     url = "http://jwts.hit.edu.cn/kbcx/ExportGrKbxx"
     data = {
         "xnxq": "%d-%d%d" % (semester_year, semester_year + 1, semester)
@@ -48,8 +47,7 @@ def download_schedule(semester_year, semester):
 
 
 def main():
-    if sso_login(username, password):
-        download_schedule(2017, 2)
+    pass
 
 
 if __name__ == '__main__':

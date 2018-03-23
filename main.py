@@ -5,8 +5,9 @@ import xlrd
 import re
 import datetime
 import argparse
+import json
 
-from config import *
+from hit import *
 
 schedule_normal = [
     ("08:00 AM", "09:45 AM"),  # 1,2
@@ -232,37 +233,50 @@ def parseItem(content):
 
 def main():
     parser = argparse.ArgumentParser()
+    # parser.add_argument(
+    #     "-i",
+    #     "--inputfile",
+    #     help="input file to convert",
+    #     default="timetable.xls"
+    # )
+    # parser.add_argument(
+    #     "-o",
+    #     "--outputfile",
+    #     help="output file to save",
+    #     default="timetable.cvs",
+    # )
     parser.add_argument(
-        "-i",
-        "--inputfile",
-        help="input file to convert",
-        default=excel_filename
+        "-c",
+        "--config",
+        help="config file",
+        default="config.json",
     )
-    parser.add_argument(
-        "-o",
-        "--outputfile",
-        help="output file to save",
-        default=cvs_filename
-    )
-    parser.add_argument(
-        "-s",
-        "--semester",
-        help="semester start date, format: year/month/day, example: 2018/02/26",
-        default="2018/02/26"
-    )
+    # parser.add_argument(
+    #     "-s",
+    #     "--semester",
+    #     help="semester start date, format: year/month/day, example: 2018/02/26",
+    #     default="2018/02/26"
+    # )
     args = parser.parse_args()
+    config = json.load(open(args.config))
 
-    # BUG [1-14]双周
-    year = int(args.semester.split("/")[0])
-    month = int(args.semester.split("/")[1])
-    day = int(args.semester.split("/")[2])
     try:
-        semester_start_date = datetime.date(year, month, day)
+        semester_start_date = datetime.datetime.strptime(config['semester_start_date'], "%Y/%m/%d")
         print "[+] Semester start date: %s" % (semester_start_date)
     except Exception as e:
         print str(e)
         exit(4)
-    count = parseExcel(args.inputfile, args.outputfile, semester_start_date)
+
+    excel = config['excel']
+    cvs = config['cvs']
+    username = config['username']
+    password = config['password']
+    semester_year = config['semester_year']
+    semester = config['semester']
+
+    sso_login(username, password)
+    download_schedule(semester_year, semester, excel)
+    count = parseExcel(excel, cvs, semester_start_date)
     print "[+] %d lectures found" % (count)
     print "[+] Please check %s" % (args.outputfile)
 
