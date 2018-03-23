@@ -278,7 +278,7 @@ def main():
         download_schedule(semester_year, semester, excel)
         count = parseExcel(excel, cvs, semester_start_date)
         print "[+] %d lectures found" % (count)
-        print "[+] Please check %s" % (args.outputfile)
+        print "[+] Please check %s" % (cvs)
 
 
 if __name__ == '__main__':
