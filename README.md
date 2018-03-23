@@ -38,6 +38,9 @@ optional arguments:
 
 #### TODO
 - [x] 适配考试时间表以及实验时间表
+- [x] 登录教务处下载课表 Excel 文件
+- [ ] 服务化
+- [ ] CVS 转 iCal
 
 #### Example:
 > [timetable.cvs](timetable.cvs)
