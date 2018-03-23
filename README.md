@@ -43,7 +43,7 @@ optional arguments:
 - [ ] CVS 转 iCal
 
 #### Example:
-> [timetable.cvs](timetable.cvs)
+> [timetable.cvs](ClassScheduleOfHIT/timetable.cvs)
 ```
 Subject,Start Date,Start Time,End Date,End Time,All Day Event,Description,Location,Private,
 软件构造, 2018-02-26, 08:00 AM, 2018-02-26, 09:45 AM, False, 徐汉川, 正心23, True
