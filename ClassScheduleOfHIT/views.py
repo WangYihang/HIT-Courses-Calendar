@@ -16,7 +16,7 @@ import string
 
 class UploadFileForm(forms.Form):
     file = forms.FileField()
-    semester_start_date = forms.DateField()
+    semester_start_date = forms.DateField(help_text="(2018-02-26)")
 
 
 def random_string(length):
