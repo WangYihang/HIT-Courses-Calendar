@@ -195,7 +195,7 @@ def parseItem(content):
                 instructor = left_data.split("[")[0]
 
                 # regex
-                # left_data = "Ñ§ÊõÓ¢ÓïÐ´×÷(Ìá¸ß)</br>Ò¦¾²[1-3，5-16]周ÕýÐÄ432，[4]周Ð£Íâ"
+                # left_data = "学术英语写作(提高)</br>姚静[1-3，5-16]周正心432，[4]周校外"
                 # weeks_info_temp = re.compile(r'(?<=\[).*(?<!\])').findall(left_data)
                 # print left_data
                 weeks_info_temp = re.compile(r'(?<=\[).*?(?=\])').findall(left_data)
@@ -216,12 +216,7 @@ def parseItem(content):
                         start_week = int(week_info)
                         end_week = start_week
 
-                    if "]周" in left_data:
-                        # .split("，")[0] for ÕýÐÄ432，[4]周Ð£Íâ
-                        location = left_data.split("]周")[1].split("，")[0]
-                        for i in range(start_week, end_week + 1):
-                            weeks.append(i)
-                    elif "双]周" in left_data:
+                    if "双]周" in left_data:
                         location = left_data.split("双]周")[1].split("，")[0]
                         for i in range(start_week, end_week):
                             if i % 2 == 0:
@@ -231,6 +226,11 @@ def parseItem(content):
                         for i in range(start_week, end_week):
                             if i % 2 == 1:
                                 weeks.append(i)
+                    elif "]周" in left_data:
+                        # .split("，")[0] for 正心432，[4]周校外
+                        location = left_data.split("]周")[1].split("，")[0]
+                        for i in range(start_week, end_week + 1):
+                            weeks.append(i)
                     else:
                         exit(3)
 
@@ -263,17 +263,7 @@ def parseItem(content):
                         else:
                             start_week = int(week_info)
                             end_week = start_week
-                        if "]周" in instrs[l]:
-                            # .split("，")[0] for ÕýÐÄ432，[4]周Ð£Íâ
-
-                            for i in range(start_week, end_week + 1):
-                                weeks.append(i)
-                        elif "]" in instrs[l]:
-                            # .split("，")[0] for ÕýÐÄ432，[4]周Ð£Íâ
-
-                            for i in range(start_week, end_week + 1):
-                                weeks.append(i)
-                        elif "双]周" in instrs[l]:
+                        if "双]周" in instrs[l]:
 
                             for i in range(start_week, end_week):
                                 if i % 2 == 0:
@@ -293,6 +283,16 @@ def parseItem(content):
                             for i in range(start_week, end_week):
                                 if i % 2 == 1:
                                     weeks.append(i)
+                        elif "]周" in instrs[l]:
+                            # .split("，")[0] for 正心432，[4]周校外
+
+                            for i in range(start_week, end_week + 1):
+                                weeks.append(i)
+                        elif "]" in instrs[l]:
+                            # .split("，")[0] for 正心432，[4]周校外
+
+                            for i in range(start_week, end_week + 1):
+                                weeks.append(i)
                         else:
                             exit(3)
 
@@ -329,17 +329,7 @@ def parseItem(content):
                         else:
                             start_week = int(week_info)
                             end_week = start_week
-                        if "]周" in informa[k]:
-                            # .split("，")[0] for ÕýÐÄ432，[4]周Ð£Íâ
-
-                            for i in range(start_week, end_week + 1):
-                                weeks.append(i)
-                        elif "]" in informa[k]:
-                            # .split("，")[0] for ÕýÐÄ432，[4]周Ð£Íâ
-
-                            for i in range(start_week, end_week + 1):
-                                weeks.append(i)
-                        elif "双]周" in informa[k]:
+                        if "双]周" in informa[k]:
 
                             for i in range(start_week, end_week):
                                 if i % 2 == 0:
@@ -359,6 +349,16 @@ def parseItem(content):
                             for i in range(start_week, end_week):
                                 if i % 2 == 1:
                                     weeks.append(i)
+                        if "]周" in informa[k]:
+                            # .split("，")[0] for 正心432，[4]周校外
+
+                            for i in range(start_week, end_week + 1):
+                                weeks.append(i)
+                        elif "]" in informa[k]:
+                            # .split("，")[0] for 正心432，[4]周校外
+
+                            for i in range(start_week, end_week + 1):
+                                weeks.append(i)
                         else:
                             exit(3)
 
@@ -399,7 +399,7 @@ def main():
         "-i",
         "--inputfile",
         help="input file to convert",
-        default="timetable.xls"
+        default="timetable6.xls"
     )
     parser.add_argument(
         "-o",
