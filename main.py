@@ -32,19 +32,6 @@ schedule_experiment = [
     ("06:30 PM", "09:00 PM"),  # 9,10
 ]
 
-keys = [
-    "Subject",
-    "Start Date",
-    "Start Time",
-    "End Date",
-    "End Time",
-    "All Day Event",
-    "Description",
-    "Location",
-    "Private",
-]
-
-
 class Subject():
     '''
     Reference: https://support.google.com/calendar/answer/37118?hl=zh-Hans
@@ -86,42 +73,40 @@ class Subject():
 
 def pretty_print(data):
     if isinstance(data, list):
-        print "[",
+        print("[")
         for i in data:
             pretty_print(i)
-            print ",",
-        print "]"
+            print(",")
+        print("]")
     elif isinstance(data, dict):
-        print "{",
+        print("{")
         for i in data.items():
             pretty_print(i)
-            print ",",
-        print "}"
+            print(",")
+        print("}")
     elif isinstance(data, tuple):
-        print "(",
+        print("(")
         for i in data:
             pretty_print(i)
-            print ":",
-        print ")"
+            print(":")
+        print(")")
     else:
-        print data,
+        print(data)
 
 
-def parseExcel(inputfile, outputfile, semester_start_date):
-    print "[+] Parsing xls data..."
-    with open(outputfile, "w") as f:
-        f.write("".join([i + "," for i in keys]) + "\n")
+def parseExcel(inputfile, semester_start_date):
+    subjects = []
+    print("[+] Parsing xls data...")
     try:
         work_book = xlrd.open_workbook(inputfile)
     except Exception as e:
-        print e
+        print(e)
         exit(2)
     sheet_names = work_book.sheet_names()
     for sheet_name in sheet_names:
         sheet = work_book.sheet_by_name(sheet_name)
         nrows = sheet.nrows
         ncols = sheet.ncols
-        count = 0
         for r in range(2, nrows):
             for c in range(2, ncols):
                 item = sheet.cell_value(r, c)
@@ -153,18 +138,16 @@ def parseExcel(inputfile, outputfile, semester_start_date):
                             location=lecture_info['location'],
                             private=True,
                         )
-                        count += 1
-                        with open(outputfile, "a+") as f:
-                            f.write(str(subject) + "\n")
+                        subjects.append(subject)
                 # pretty_print(lectures_info)
-    print "[+] Output finished!"
-    return count
+    print("[+] Output finished!")
+    return subjects
 
 
 def parseItem(content):
     if len(content) == 0:
         return []
-    content_items = re.split("</br>|<br/>", content)
+    content_items = re.split(r"</br>|<br/>", content.decode("utf-8"))
     results = []
     count = 0
     flag = 0
@@ -197,9 +180,9 @@ def parseItem(content):
                 # regex
                 # left_data = "学术英语写作(提高)</br>姚静[1-3，5-16]周正心432，[4]周校外"
                 # weeks_info_temp = re.compile(r'(?<=\[).*(?<!\])').findall(left_data)
-                # print left_data
+                # print(left_data)
                 weeks_info_temp = re.compile(r'(?<=\[).*?(?=\])').findall(left_data)
-                # print weeks_info_temp
+                # print(weeks_info_temp)
                 weeks_info = []
                 for i in weeks_info_temp:
                     weeks_info += i.split("，")
@@ -392,6 +375,26 @@ def parseItem(content):
             results.append(lecture_info)
     return results
 
+def save(filename, subjects):
+    keys = [
+        "Subject",
+        "Start Date",
+        "Start Time",
+        "End Date",
+        "End Time",
+        "All Day Event",
+        "Description",
+        "Location",
+        "Private",
+    ]
+    # Head
+    with open(filename, "w") as f:
+        f.write("".join([i + "," for i in keys]) + "\n")
+    # Body
+    for subject in subjects:
+        with open(filename, "a+") as f:
+            f.write(str(subject))
+            f.write("\n")
 
 def main():
     parser = argparse.ArgumentParser()
@@ -421,13 +424,14 @@ def main():
     day = int(args.semester.split("/")[2])
     try:
         semester_start_date = datetime.date(year, month, day)
-        print "[+] Semester start date: %s" % (semester_start_date)
+        print("[+] Semester start date: %s" % (semester_start_date))
     except Exception as e:
-        print str(e)
+        print(str(e))
         exit(4)
-    count = parseExcel(args.inputfile, args.outputfile, semester_start_date)
-    print "[+] %d lectures found" % (count)
-    print "[+] Please check %s" % (args.outputfile)
+    subjects = parseExcel(args.inputfile, semester_start_date)
+    print("[+] %d lectures found" % (len(subjects)))
+    save(args.outputfile, subjects)
+    print("[+] Please check %s" % (args.outputfile))
 
 
 if __name__ == '__main__':
