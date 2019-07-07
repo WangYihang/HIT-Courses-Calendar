@@ -1,4 +1,4 @@
-哈尔滨工业大学教务处课表 Excel 转换 cvs 脚本
+哈尔滨工业大学本科生院选课查询转换 cvs 脚本
 ---
 
 #### Installation
@@ -10,13 +10,15 @@ pip install -r requirements.txt
 
 #### Usage:
 
-1. 登录教务处网站
-2. 查看课表，并导出课表为 excel
+1. 关注微信公众号：**哈尔滨工业大学本科生院**
+2. 在微信公众号中绑定统一身份认证
+3. 选择 **信息查询** -> **选课查询**
+4. 将公众号回复的文本保存为文本文件（例如：`timetable.txt`）
 3. 根据使用说明执行脚本  
-    * -i 为 excel 文件所在路径  
+    * -i 为课表文本文件所在路径  
     * -o 为输出 cvs 文件路径  
     * -s 为本学期开始日期，格式为：年/月/日 （例如：2018/02/26）  
-    * `python main.py -i timetable.xls -o timetable.cvs -s 2018/02/26`    
+    * `python main.py -i timetable.txt -o timetable.cvs -s 2018/02/26`    
 4. 执行成功后生成 cvs 文件，即可导入 Google Calendar 等日历管理工具
 
 ```
@@ -61,7 +63,7 @@ Subject,Start Date,Start Time,End Date,End Time,All Day Event,Description,Locati
 
 #### Acknowledge
 
-珍惜、那时光 (提示时间表在不同时期会有微小变化)
+* 珍惜、那时光 (提示时间表在不同时期会有微小变化)
 
 #### TODO
 - [x] 作息表在考试时期和实验时期会有变化，需要适配这种变化
