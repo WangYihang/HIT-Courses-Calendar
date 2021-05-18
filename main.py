@@ -402,7 +402,7 @@ def main():
         "-i",
         "--inputfile",
         help="input file to convert",
-        default="timetable6.xls"
+        default="timetable.xls"
     )
     parser.add_argument(
         "-o",
